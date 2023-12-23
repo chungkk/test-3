@@ -1,34 +1,3 @@
-// function checkWord(input, correctWord) {
-//   var fullWord = input.previousElementSibling.innerText + correctWord;
-//   var sanitizedCorrectWord = correctWord.replace(
-//     /[.,\/#!$%\^&\*;:{}=\-_`~()?]/g,
-//     ""
-//   );
-//   replaceCharacters(input);
-//   if (input.value.toLowerCase() === sanitizedCorrectWord.toLowerCase()) {
-//     var wordSpan = document.createElement("span");
-//     wordSpan.className = "correct-word";
-//     wordSpan.innerText = fullWord;
-//     wordSpan.onclick = function () {
-//       saveWord(fullWord);
-//       createFallingEffect(wordSpan);
-//     };
-//     input.parentNode.replaceWith(wordSpan);
-
-//     // Tìm ô nhập dữ liệu tiếp theo và kích hoạt nó
-//     var nextInput = findNextInput(input);
-//     if (nextInput) {
-//       nextInput.focus();
-//     }
-//   } else {
-//     updateInputBackground(input, sanitizedCorrectWord);
-//   }
-
-//   input.addEventListener("input", function () {
-//     updateInputBackground(input, sanitizedCorrectWord);
-//     // replaceCharacters(input);
-//   });
-// }
 function checkWord(input, correctWord) {
   var fullWord = input.previousElementSibling.innerText + correctWord;
   var sanitizedCorrectWord = correctWord.replace(
@@ -36,12 +5,6 @@ function checkWord(input, correctWord) {
     ""
   );
   replaceCharacters(input);
-
-  function updateInput() {
-    updateInputBackground(input, sanitizedCorrectWord);
-    saveState(); // Lưu trạng thái sau mỗi lần người dùng nhập
-  }
-
   if (input.value.toLowerCase() === sanitizedCorrectWord.toLowerCase()) {
     var wordSpan = document.createElement("span");
     wordSpan.className = "correct-word";
@@ -58,13 +21,50 @@ function checkWord(input, correctWord) {
       nextInput.focus();
     }
   } else {
-    updateInput();
+    updateInputBackground(input, sanitizedCorrectWord);
   }
 
   input.addEventListener("input", function () {
-    updateInput();
+    updateInputBackground(input, sanitizedCorrectWord);
+    // replaceCharacters(input);
   });
 }
+// function checkWord(input, correctWord) {
+//   var fullWord = input.previousElementSibling.innerText + correctWord;
+//   var sanitizedCorrectWord = correctWord.replace(
+//     /[.,\/#!$%\^&\*;:{}=\-_`~()?]/g,
+//     ""
+//   );
+//   replaceCharacters(input);
+
+//   function updateInput() {
+//     updateInputBackground(input, sanitizedCorrectWord);
+//     saveState(); // Lưu trạng thái sau mỗi lần người dùng nhập
+//   }
+
+//   if (input.value.toLowerCase() === sanitizedCorrectWord.toLowerCase()) {
+//     var wordSpan = document.createElement("span");
+//     wordSpan.className = "correct-word";
+//     wordSpan.innerText = fullWord;
+//     wordSpan.onclick = function () {
+//       saveWord(fullWord);
+//       createFallingEffect(wordSpan);
+//     };
+//     input.parentNode.replaceWith(wordSpan);
+
+//     // Tìm ô nhập dữ liệu tiếp theo và kích hoạt nó
+//     var nextInput = findNextInput(input);
+//     if (nextInput) {
+//       nextInput.focus();
+//     }
+//   } else {
+//     updateInput();
+//   }
+
+//   input.addEventListener("input", function () {
+//     updateInput();
+//   });
+// }
 
 function findNextInput(currentInput) {
   // Lấy danh sách tất cả các ô nhập dữ liệu
