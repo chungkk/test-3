@@ -1,74 +1,34 @@
-const SEEK_STEP = 3;
-const AUDIO_PLAYER = document.getElementById("audioPlayer");
-const TOGGLE_PLAY_PAUSE_BUTTON = document.getElementById("togglePlayPause");
-const STOP_BUTTON = document.getElementById("stopButton");
-const SEEK_FORWARD_BUTTON = document.getElementById("seekForwardButton");
-const SEEK_BACKWARD_BUTTON = document.getElementById("seekBackwardButton");
+// function checkWord(input, correctWord) {
+//   var fullWord = input.previousElementSibling.innerText + correctWord;
+//   var sanitizedCorrectWord = correctWord.replace(
+//     /[.,\/#!$%\^&\*;:{}=\-_`~()?]/g,
+//     ""
+//   );
+//   replaceCharacters(input);
+//   if (input.value.toLowerCase() === sanitizedCorrectWord.toLowerCase()) {
+//     var wordSpan = document.createElement("span");
+//     wordSpan.className = "correct-word";
+//     wordSpan.innerText = fullWord;
+//     wordSpan.onclick = function () {
+//       saveWord(fullWord);
+//       createFallingEffect(wordSpan);
+//     };
+//     input.parentNode.replaceWith(wordSpan);
 
-TOGGLE_PLAY_PAUSE_BUTTON.addEventListener("click", togglePlayPause);
-STOP_BUTTON.addEventListener("click", stopAudio);
-SEEK_FORWARD_BUTTON.addEventListener("click", seekForward);
-SEEK_BACKWARD_BUTTON.addEventListener("click", seekBackward);
+//     // Tìm ô nhập dữ liệu tiếp theo và kích hoạt nó
+//     var nextInput = findNextInput(input);
+//     if (nextInput) {
+//       nextInput.focus();
+//     }
+//   } else {
+//     updateInputBackground(input, sanitizedCorrectWord);
+//   }
 
-AUDIO_PLAYER.src = ""; // Thay thế bằng đường dẫn tới tệp MP3 của bạn
-
-function togglePlayPause() {
-  if (AUDIO_PLAYER.paused) {
-    AUDIO_PLAYER.play();
-    TOGGLE_PLAY_PAUSE_BUTTON.textContent = "Pause";
-  } else {
-    AUDIO_PLAYER.pause();
-    TOGGLE_PLAY_PAUSE_BUTTON.textContent = "Play";
-  }
-}
-
-function stopAudio() {
-  AUDIO_PLAYER.pause();
-  AUDIO_PLAYER.currentTime = 0;
-}
-
-function seekForward() {
-  AUDIO_PLAYER.currentTime += SEEK_STEP;
-}
-
-function seekBackward() {
-  AUDIO_PLAYER.currentTime -= SEEK_STEP;
-}
-function processText() {
-  var inputTextElement = document.getElementById("inputText");
-  var inputText = inputTextElement.value;
-  var outputHtml = processSentence(inputText);
-  document.getElementById("outputText").innerHTML = outputHtml;
-  inputTextElement.classList.add("blurred");
-}
-
-function processSentence(sentence) {
-  const sentences = sentence.split(/\n+/); // Tách văn bản thành các câu dựa trên xuống dòng
-
-  const processedSentences = sentences.map((sentence) => {
-    const words = sentence.split(/\s+/); // Tách câu thành các từ dựa trên khoảng trắng
-
-    const processedWords = words.map((word) => {
-      var pureWord = word.replace(/[^a-zA-Z0-9üäöÜÄÖß]/g, "");
-      if (pureWord.length > 1) {
-        var nonAlphaNumeric = word.replace(/[a-zA-Z0-9üäöÜÄÖß]/g, "");
-        return `<span class="word-container"><span class="first-letter">${
-          pureWord[0]
-        }</span><input type="text" class="word-input" oninput="checkWord(this, '${pureWord.substr(
-          1
-        )}')" onkeydown="disableArrowKeys(event)" maxlength="${
-          pureWord.length - 1
-        }" size="${pureWord.length - 1}" />${nonAlphaNumeric}</span>`;
-      }
-      return `<span>${word}</span>`;
-    });
-
-    return processedWords.join(" ") + "<br>"; // Kết hợp các từ và thêm thẻ <br> ở cuối mỗi câu
-  });
-
-  return processedSentences.join("<br>"); // Kết hợp các câu và thêm thẻ <br> ở cuối mỗi đoạn
-}
-
+//   input.addEventListener("input", function () {
+//     updateInputBackground(input, sanitizedCorrectWord);
+//     // replaceCharacters(input);
+//   });
+// }
 function checkWord(input, correctWord) {
   var fullWord = input.previousElementSibling.innerText + correctWord;
   var sanitizedCorrectWord = correctWord.replace(
@@ -76,6 +36,12 @@ function checkWord(input, correctWord) {
     ""
   );
   replaceCharacters(input);
+
+  function updateInput() {
+    updateInputBackground(input, sanitizedCorrectWord);
+    saveState(); // Lưu trạng thái sau mỗi lần người dùng nhập
+  }
+
   if (input.value.toLowerCase() === sanitizedCorrectWord.toLowerCase()) {
     var wordSpan = document.createElement("span");
     wordSpan.className = "correct-word";
@@ -92,12 +58,11 @@ function checkWord(input, correctWord) {
       nextInput.focus();
     }
   } else {
-    updateInputBackground(input, sanitizedCorrectWord);
+    updateInput();
   }
 
   input.addEventListener("input", function () {
-    updateInputBackground(input, sanitizedCorrectWord);
-    // replaceCharacters(input);
+    updateInput();
   });
 }
 
@@ -114,20 +79,6 @@ function findNextInput(currentInput) {
   return nextInput;
 }
 
-// function replaceCharacters(input) {
-//   if (input.value.includes("ae")) {
-//     input.value = input.value.replace("ae", "ä");
-//   }
-//   if (input.value.includes("oe")) {
-//     input.value = input.value.replace("oe", "ö");
-//   }
-//   if (input.value.includes("ue")) {
-//     input.value = input.value.replace("ue", "ü");
-//   }
-//   if (input.value.includes("ss")) {
-//     input.value = input.value.replace("ss", "ß");
-//   }
-// }
 let lastKeyPressTime = 0; // Biến để lưu thời gian lần gõ ký tự cuối cùng
 const transformationDelay = 1000; // Khoảng thời gian giữa hai lần gõ (1 giây)
 
@@ -167,41 +118,6 @@ function updateInputBackground(input, correctWord) {
   } else {
     input.style.backgroundColor = "red";
   }
-}
-
-function saveWord(word) {
-  var savedWordsDiv = document.getElementById("savedWords");
-  var currentSavedWords = savedWordsDiv.innerText;
-
-  if (!currentSavedWords.includes(word)) {
-    savedWordsDiv.innerHTML += `<span class="saved-word">${word}</span>, `;
-  }
-}
-
-function createFallingEffect(element) {
-  var rect = element.getBoundingClientRect();
-  var fallingWord = element.cloneNode(true);
-  fallingWord.style.position = "absolute";
-  fallingWord.style.left = rect.left + "px";
-  fallingWord.style.top = rect.top + "px";
-  fallingWord.style.zIndex = 1000;
-  document.body.appendChild(fallingWord);
-
-  var targetRect = document
-    .getElementById("savedWords")
-    .getBoundingClientRect();
-  fallingWord.animate(
-    [
-      { transform: "translateY(0px)" },
-      { transform: `translateY(${targetRect.top - rect.top}px)` },
-    ],
-    {
-      duration: 1000,
-      easing: "ease-in",
-    }
-  ).onfinish = function () {
-    fallingWord.remove();
-  };
 }
 
 function loadContent(textFile, audioFile) {
@@ -254,66 +170,7 @@ function disableArrowKeys(e) {
     e.preventDefault();
   }
 }
-function levelUp() {
-  var inputTextElement = document.getElementById("inputText");
-  var inputText = inputTextElement.value;
-  var outputHtml = processLevelUp(inputText);
-  document.getElementById("outputText").innerHTML = outputHtml;
-  inputTextElement.classList.add("blurred");
-}
 
-function processLevelUp(sentence) {
-  const sentences = sentence.split(/\n+/); // Tách văn bản thành các câu dựa trên xuống dòng
-
-  const processedSentences = sentences.map((sentence) => {
-    const words = sentence.split(/\s+/); // Tách câu thành các từ dựa trên khoảng trắng
-
-    const processedWords = words.map((word) => {
-      var pureWord = word.replace(/[^a-zA-Z0-9üäöÜÄÖß]/g, "");
-      if (pureWord.length >= 1) {
-        // Loại bỏ cả ký tự đầu tiên của từ
-        var nonAlphaNumeric = word.replace(/[a-zA-Z0-9üäöÜÄÖß]/g, "");
-        return `<span class="word-container"><input type="text" class="word-input" oninput="checkLevelUp(this, '${pureWord}')" onkeydown="disableArrowKeys(event)" maxlength="${pureWord.length}" size="${pureWord.length}" />${nonAlphaNumeric}</span>`;
-      }
-      return `<span>${word}</span>`;
-    });
-
-    return processedWords.join(" ") + "<br>"; // Kết hợp các từ và thêm thẻ <br> ở cuối mỗi câu
-  });
-
-  return processedSentences.join("<br>"); // Kết hợp các câu và thêm thẻ <br> ở cuối mỗi đoạn
-}
-
-function checkLevelUp(input, correctWord) {
-  var fullWord = correctWord;
-  var sanitizedCorrectWord = correctWord.replace(
-    /[.,\/#!$%\^&\*;:{}=\-_`~()?]/g,
-    ""
-  );
-  replaceCharacters(input);
-  if (input.value.toLowerCase() === sanitizedCorrectWord.toLowerCase()) {
-    var wordSpan = document.createElement("span");
-    wordSpan.className = "correct-word";
-    wordSpan.innerText = fullWord;
-    wordSpan.onclick = function () {
-      saveWord(fullWord);
-      createFallingEffect(wordSpan);
-    };
-    input.parentNode.replaceWith(wordSpan);
-
-    // Tìm ô nhập dữ liệu tiếp theo và kích hoạt nó
-    var nextInput = findNextInput(input);
-    if (nextInput) {
-      nextInput.focus();
-    }
-  } else {
-    updateInputBackground(input, sanitizedCorrectWord);
-  }
-
-  input.addEventListener("input", function () {
-    updateInputBackground(input, sanitizedCorrectWord);
-  });
-}
 function loadSelectedExercise() {
   var selectElement = document.getElementById("selectExercise");
   var selectedOption = selectElement.options[selectElement.selectedIndex];
@@ -330,8 +187,49 @@ function loadSelectedExercise() {
       inputTextElement.value = data;
       audio.src = audioFile;
       audio.load();
+      levelUp(); // Tự động xử lý văn bản khi chọn bài
     });
 }
+function loadRandomExercise() {
+  var selectElement = document.getElementById("selectExercise");
+  // Chọn index cố định hoặc index mong muốn
+  var fixedIndex = 0; // Đặt giá trị index cố định, ví dụ: Bài 1
+  selectElement.selectedIndex = fixedIndex;
+  loadSelectedExercise();
+}
+
 document.addEventListener("DOMContentLoaded", function () {
-  loadContent("text/text1.txt", "mp3/bai1.mp3");
+  loadRandomExercise();
+});
+// ==========================
+// ==========================
+// ==========================
+function saveState() {
+  var allInputs = document.querySelectorAll(".word-input");
+  var state = {};
+
+  allInputs.forEach(function (input, index) {
+    state["input_" + index] = input.value;
+  });
+
+  localStorage.setItem("exerciseState", JSON.stringify(state));
+}
+function restoreState() {
+  var savedState = localStorage.getItem("exerciseState");
+
+  if (savedState) {
+    savedState = JSON.parse(savedState);
+    var allInputs = document.querySelectorAll(".word-input");
+
+    allInputs.forEach(function (input, index) {
+      var savedValue = savedState["input_" + index];
+      if (savedValue !== undefined) {
+        input.value = savedValue;
+      }
+    });
+  }
+}
+document.addEventListener("DOMContentLoaded", function () {
+  restoreState();
+  loadRandomExercise();
 });

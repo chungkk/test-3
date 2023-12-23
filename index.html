@@ -14,8 +14,6 @@
       </audio>
       <div class="controls">
         <button class="control-button" id="togglePlayPause">Play</button>
-
-        <button class="control-button" id="stopButton">Stop</button>
         <button class="control-button" id="seekForwardButton">+ 3s</button>
         <button class="control-button" id="seekBackwardButton">- 3s</button>
       </div>
@@ -34,18 +32,25 @@
         <option value="text/text4.txt,mp3/bai4.mp3">Bai 4</option>
         <option value="text/text5.txt,mp3/bai5.mp3">Bai 5</option></select
       ><br /><br />
-      <button class="button" onclick="processText()">Level Normal</button>
+      <!-- <button class="button" onclick="processText()">Level Normal</button>
       <!-- Thêm nút Level Up bên cạnh nút Process Text-->
 
-      <button class="button" onclick="levelUp()">Level Up</button>
+      <!-- <button class="button" onclick="levelUp()">Level Up</button> -->
 
-      <h2>Processed Text:</h2>
-      <div id="outputText"></div>
+      <!-- <h2>Normal:</h2>
+        <div id="outputText"></div> -->
+      <h2>Hard:</h2>
+      <div id="outputText2"></div>
 
       <h2>Saved Words:</h2>
       <div id="savedWords" class="saved-words"></div>
     </div>
     <script language="javascript" src="java.js"></script>
+    <script language="javascript" src="js/mp3.js"></script>
+    <script language="javascript" src="js/save.js"></script>
+    <script language="javascript" src="js/levelup.js"></script>
+    <!-- <script language="javascript" src="js/levelnormal.js"></script> -->
+
     <!-- <script language="javascript" src="levelup.js"></script> -->
   </body>
   <footer>
