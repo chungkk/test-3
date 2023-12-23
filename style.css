@@ -1,0 +1,201 @@
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f0f8ff;
+  color: #333;
+  line-height: 1.6;
+  margin: 0;
+  padding: 0;
+  position: relative; /* Thêm thuộc tính position relative vào body */
+}
+
+h1,
+h2 {
+  color: #333;
+}
+
+.container {
+  width: 80%;
+  padding-top: 120px;
+  margin: auto;
+  overflow: hidden;
+  text-align: center;
+  position: relative; /* Thêm thuộc tính position relative vào .container */
+}
+
+#inputText {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 20px;
+}
+
+.blurred {
+  opacity: 0.1;
+  pointer-events: none;
+}
+
+.button {
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.button:hover {
+  background-color: #45a049;
+}
+
+#outputText {
+  border: 2px solid rgb(0, 186, 77);
+  background-color: #ffffff;
+  padding: 15px;
+  margin-top: 20px;
+  /* Loại bỏ hai dòng dưới đây */
+  /* max-height: 300px; */
+  /* overflow-y: auto; */
+  box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.1);
+  text-align: left;
+}
+
+.first-letter {
+  font-size: 100%;
+  font-weight: bold;
+}
+
+.word-input {
+  border: none;
+  border-bottom: 1px solid #333;
+  /* border-top: 1px solid #333;
+  border-left: 1px solid #333;
+  border-right: 1px solid #333; */
+  width: auto;
+}
+
+.correct-word {
+  background-color: rgb(6, 168, 6);
+  color: white;
+  border-radius: 5px;
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
+  padding: 2px 5px;
+  cursor: pointer;
+}
+.incorrect-word {
+  background-color: red;
+}
+
+.saved-word {
+  background-color: rgb(9, 183, 9);
+  color: white;
+  border-radius: 5px;
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
+  padding: 2px 5px;
+  margin: 2px;
+  display: inline-block;
+}
+
+.falling-word {
+  position: absolute;
+  transition: all 1s ease-in;
+}
+
+#audioControlsContainer {
+  width: 100%;
+  background-color: #3a0505;
+  color: white;
+  padding: 10px;
+  position: fixed;
+  top: 0;
+  text-align: center;
+  z-index: 9999;
+}
+
+.controls {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.control-button {
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  padding: 15px;
+  margin: 0 10px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.control-button:hover {
+  background-color: #45a049;
+  transform: scale(1.1);
+}
+footer {
+  background-color: #264563; /* Màu nền tối hơn */
+  color: #fff; /* Màu chữ trắng */
+  text-align: center; /* Căn giữa nội dung */
+  padding: 20px 0; /* Đệm trên và dưới */
+  margin-top: 40px; /* Khoảng cách từ nội dung trên */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3); /* Bóng đổ */
+  font-size: 1em; /* Kích thước phông chữ */
+  border-top: 3px solid #e4e4e4; /* Đường viền phân cách */
+}
+
+footer a {
+  color: #f8c471; /* Màu của liên kết */
+  text-decoration: none; /* Bỏ gạch chân */
+}
+
+footer a:hover {
+  color: #f4c507; /* Thay đổi màu khi di chuột qua */
+  text-decoration: underline; /* Gạch chân */
+}
+/* Định dạng dropdown list */
+#selectExercise {
+  appearance: none; /* Loại bỏ giao diện mặc định của dropdown trên các trình duyệt */
+  border: none; /* Loại bỏ đường viền */
+  background-color: #4caf50; /* Màu nền giống nút Level Up */
+  color: white; /* Màu chữ trắng */
+  padding: 10px 20px; /* Khoảng cách nội dung và biên */
+  border-radius: 5px; /* Góc bo tròn */
+  cursor: pointer; /* Hiển thị con trỏ khi di chuột qua */
+  font-size: 16px; /* Kích thước phông chữ */
+  transition: background-color 0.3s ease; /* Hiệu ứng màu nền thay đổi */
+}
+
+/* Định dạng tùy chọn trong dropdown
+#selectExercise option {
+  font-size: 16px;
+}
+
+/* Định dạng nút mở dropdown */
+#selectExercise::-ms-expand {
+  display: none; /* Loại bỏ mũi tên mặc định trên IE/Edge */
+}
+
+/* Định dạng khi di chuột qua dropdown */
+#selectExercise:hover {
+  background-color: #45a049; /* Màu nền khi di chuột qua giống nút Level Up */
+}
+
+/* Định dạng khi focus vào dropdown */
+#selectExercise:focus {
+  outline: none; /* Loại bỏ đường viền khi được focus */
+}
+*/ .button-common {
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.button-common:hover {
+  background-color: #45a049;
+}
